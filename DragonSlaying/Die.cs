@@ -25,6 +25,7 @@ namespace DragonSlaying
         public Die(int numberOfSides)
         {
             // TODO
+            NumberOfSides = numberOfSides;
         }
 
         /// <summary>
@@ -34,7 +35,9 @@ namespace DragonSlaying
         public int Roll()
         {
             // TODO
-            throw new NotImplementedException();
+            random = new Random();
+            int diceRoll = random.Next(1, NumberOfSides+1);
+            return diceRoll;
         }
     }
 }
