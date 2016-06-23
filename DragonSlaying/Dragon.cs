@@ -39,7 +39,6 @@ namespace DragonSlaying
                 return true;
             } else
             {
-                HitPoints = 0;
                 return false;
             }
 

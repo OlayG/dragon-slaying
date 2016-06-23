@@ -34,14 +34,23 @@ namespace DragonSlaying
             HitPoints = 25,
         };
 
-        static Dragon MyEnemy = new Dragon
-        {
-            Name = "Drogon",
-            Offense = 16,
-            Defense = 12,
-            MaxHitPoints = 60,
-            HitPoints = 60
-        };
+        static List<Dragon> Enemies = new List<Dragon>()
+            {
+                new Dragon { Name = "Drogon", Offense = 16, Defense = 12,
+                               MaxHitPoints = 60, HitPoints = 60},
+                new Dragon { Name = "Spike", Offense = 8, Defense = 6,
+                               MaxHitPoints = 30, HitPoints = 30},
+                new Dragon { Name = "Spyro", Offense = 4, Defense = 3,
+                               MaxHitPoints = 15, HitPoints = 15}
+            };
+        //static Dragon MyEnemy = new Dragon
+        //{
+        //    Name = "Drogon",
+        //    Offense = 16,
+        //    Defense = 12,
+        //    MaxHitPoints = 60,
+        //    HitPoints = 60
+        //};
 
 
         /// <summary>
@@ -52,7 +61,6 @@ namespace DragonSlaying
         static void Battle(Hero hero, Dragon enemy)
         {
             //Console.Clear();
-
             //origRow = Console.CursorTop;
             //origCol = Console.CursorLeft;
 
@@ -64,36 +72,27 @@ namespace DragonSlaying
 
             Console.WriteLine("VERSUS \n");
 
-            Console.WriteLine(MyEnemy);
+            Console.WriteLine(enemy);
 
             int Phase = 1;
-            List<Dragon> Enemies = new List<Dragon>
-            {
-                new Dragon() { Name = "Spike", Offense = 8, Defense = 6,
-                               MaxHitPoints = 30, HitPoints = 30},
-                new Dragon() { Name = "Spyro", Offense = 4, Defense = 3,
-                               MaxHitPoints = 15, HitPoints = 15}
-            };
 
             while (MyHero.IsAlive())
             {
-                //Console.WriteLine("Select an enemmy to attack");
-                //Enemies.ForEach(Console.WriteLine);
-                //Console.ReadKey();
-
+              
 
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine("----------------------------------");
                 Console.WriteLine("Battle Phase {0}\n", Phase);
                 Console.ResetColor();
 
-                int currHP = MyEnemy.HitPoints;
+                //int currHP = MyEnemy.HitPoints;
+                int currHp = enemy.HitPoints;
                 int attackRoll = myDie.Roll();
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Rolled {0} for attack phase\n", attackRoll);
-                MyHero.Attack(MyEnemy, attackRoll);
-                Console.WriteLine("{0} has taken {1} damage!\n", MyEnemy.Name, currHP - MyEnemy.HitPoints);
-                Console.WriteLine(MyEnemy);
+                MyHero.Attack(enemy, attackRoll);
+                Console.WriteLine("{0} has taken {1} damage!\n", enemy.Name, currHp - enemy.HitPoints);
+                Console.WriteLine(enemy);
                 //WriteAt(MyEnemy.ToString(), 0, 16);
                 //WriteAt(MyEnemy.Name.ToString(), 0, 16);
                 //WriteAt(MyEnemy.Offense.ToString(), 0, 17);
@@ -101,15 +100,16 @@ namespace DragonSlaying
                 Console.ResetColor();
 
                 int HeroHP = MyHero.HitPoints;
-                if (!MyEnemy.IsAlive())
+                if (!enemy.IsAlive())
                 {
-                    Console.WriteLine("{0} slayed {1}!", MyHero.Name, MyEnemy.Name);
+                    Console.WriteLine("{0} slayed {1}!", MyHero.Name, enemy.Name);
                     break;
                 }
+
                 int defenseRoll = myDie.Roll();
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("Rolled {0} for defense phase\n", defenseRoll);
-                MyHero.Defend(MyEnemy, defenseRoll);
+                MyHero.Defend(enemy, defenseRoll);
                 Console.WriteLine("{0} has taken {1} damage!\n", MyHero.Name, HeroHP - MyHero.HitPoints);
                 Console.WriteLine(MyHero);
                 //WriteAt(MyHero.ToString(), 30, 16);
@@ -124,19 +124,32 @@ namespace DragonSlaying
 
             if (!MyHero.IsAlive())
             {
-                Console.WriteLine("{0} was defeated by {1}. :(", MyHero.Name, MyEnemy.Name);
+                Console.WriteLine("{0} was defeated by {1}. :(", MyHero.Name, enemy.Name);
             }
 
         }
 
+        static int EnemySelection()
+        {
+            Console.WriteLine("Select an enemmy to attack");
+
+            for (int i = 0; i <= Enemies.Count - 1; i++)
+            {
+                Console.Write("{0}. {1}\n", i + 1, Enemies[i]);
+            }
+            int selection = Convert.ToInt32(Console.ReadLine());
+
+            return selection;
+        }
+
         static void Main(string[] args)
         {
-
-            Console.WriteLine("{0} must slay {1} to continue on the journey.\n", MyHero.Name, MyEnemy.Name);
+            int selection = EnemySelection();
+            Console.WriteLine("{0} must slay {1} to continue on the journey.\n", MyHero.Name, Enemies[selection].Name);
 
             //Console.WriteLine(MyHero);
 
-            Battle(MyHero, MyEnemy);
+            Battle(MyHero, Enemies[selection - 1]);
 
             Console.ReadLine();
         }

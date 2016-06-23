@@ -108,7 +108,7 @@ namespace DragonSlaying
                 damage = Offense * 3;
             }
 
-            opponent.HitPoints = opponent.HitPoints - damage;
+            opponent.HitPoints -= damage;
         }
 
         /// <summary>
@@ -144,8 +144,8 @@ namespace DragonSlaying
                 damage = 0;
             }
 
-            HitPoints = HitPoints - damage;
-            hitpoints = HitPoints;
+            HitPoints -= damage;
+            //hitpoints = HitPoints;
 
         }
     }
