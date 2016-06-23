@@ -26,6 +26,7 @@ namespace DragonSlaying
         {
             // TODO
             NumberOfSides = numberOfSides;
+            random = new Random();
         }
 
         /// <summary>
@@ -35,9 +36,9 @@ namespace DragonSlaying
         public int Roll()
         {
             // TODO
-            random = new Random();
-            int diceRoll = random.Next(1, NumberOfSides+1);
-            return diceRoll;
+            //int diceRoll = random.Next(1, NumberOfSides+1);
+            //return diceRoll;
+            return random.Next(1, NumberOfSides + 1);
         }
     }
 }
